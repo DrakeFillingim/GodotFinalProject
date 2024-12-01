@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7sll4qenx71d"]
+
+[ext_resource type="Script" path="res://Levels/MainMenuScript.gd" id="1_d1gwt"]
+[ext_resource type="Texture2D" uid="uid://bktiser14k8uj" path="res://Assests/Other/main menu 2.png" id="2_ll57v"]
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 80
+script = ExtResource("1_d1gwt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_ll57v")
+expand_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+action_mode = 0
+text = "Play"
+flat = true
+
+[node name="SettingsButton" type="Button" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+disabled = true
+action_mode = 0
+text = "Settings"
+flat = true
+
+[node name="ExitButton" type="Button" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+action_mode = 0
+text = "Exit"
+flat = true
+
+[connection signal="button_down" from="VBoxContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_button_down"]
+[connection signal="button_down" from="VBoxContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_button_down"]

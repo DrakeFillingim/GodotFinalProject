@@ -1,0 +1,104 @@
+[gd_scene load_steps=11 format=3 uid="uid://eowyp3hywc1y"]
+
+[ext_resource type="Script" path="res://Enemies/Koala/KoalaScript.gd" id="1_n2dj0"]
+[ext_resource type="Script" path="res://Enemies/Koala/KoalaAreaScript.gd" id="3_3qu0o"]
+[ext_resource type="Texture2D" uid="uid://dakxkuo0iao2m" path="res://Assests/Enemies/koala idle.png" id="3_ahiyt"]
+[ext_resource type="Texture2D" uid="uid://csixxbsjjmp6y" path="res://Assests/Enemies/k3.png" id="4_ptsjo"]
+[ext_resource type="Texture2D" uid="uid://m16begsy8kpr" path="res://Assests/Enemies/k4.png" id="5_3skoj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x334e"]
+atlas = ExtResource("4_ptsjo")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ngg0"]
+atlas = ExtResource("5_3skoj")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ahiyt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x334e")
+}],
+"loop": true,
+"name": &"throw",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ngg0")
+}],
+"loop": true,
+"name": &"windup",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(76, 88)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ukotw"]
+radius = 1152.03
+
+[node name="Koala" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_n2dj0")
+damage = 0
+
+[node name="KoalaAnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-3.8147e-06, -3.8147e-06)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+animation = &"throw"
+
+[node name="KoalaAreaCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="KoalaArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_3qu0o")
+
+[node name="KoalaAreaCollisionShape" type="CollisionShape2D" parent="KoalaArea"]
+position = Vector2(7, 7)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+shape = SubResource("CircleShape2D_ukotw")
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[node name="TelegraphTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="ThrowTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="RedTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="area_entered" from="KoalaArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="AttackRange" to="." method="_on_attack_range_area_entered"]
+[connection signal="area_exited" from="AttackRange" to="." method="_on_attack_range_area_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="TelegraphTimer" to="." method="_on_telegraph_timer_timeout"]
+[connection signal="timeout" from="ThrowTimer" to="." method="_on_throw_timer_timeout"]
+[connection signal="timeout" from="RedTimer" to="." method="_on_red_timer_timeout"]

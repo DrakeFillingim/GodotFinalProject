@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b6x88nm42q5dy"
+path="res://.godot/imported/boomerang sound 22.mp3-4d7c0d31158a4b427d5fc5d828089ac3.mp3str"
+
+[deps]
+
+source_file="res://Assests/Music/boomerang sound 22.mp3"
+dest_files=["res://.godot/imported/boomerang sound 22.mp3-4d7c0d31158a4b427d5fc5d828089ac3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3 uid="uid://cnf531n72h31t"]
+
+[ext_resource type="Script" path="res://Enemies/MiniBosses/Miniboss 2/Miniboss02Spawnv2Script.gd" id="1_x4gn6"]
+[ext_resource type="Texture2D" uid="uid://bhi66rfiqjrj8" path="res://Assests/brown spider 2.png" id="2_hsmp1"]
+[ext_resource type="Texture2D" uid="uid://bigumqbrdchvs" path="res://Assests/brown spider.png" id="3_vw30a"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fnjxp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hsmp1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_vw30a")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o0g07"]
+size = Vector2(89, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uxgge"]
+size = Vector2(89, 75)
+
+[sub_resource type="Curve2D" id="Curve2D_b16x7"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 1
+
+[node name="Miniboss02Spawn" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_x4gn6")
+health = 3
+speed = 1000
+inverse_direction = true
+tile_length = 38
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fnjxp")
+animation = &"walk"
+frame_progress = 0.921263
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(11.5, 4.5)
+shape = SubResource("RectangleShape2D_o0g07")
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="AreaCollisionShape" type="CollisionShape2D" parent="Area"]
+position = Vector2(11.5, 4.5)
+shape = SubResource("RectangleShape2D_uxgge")
+
+[node name="DamageTakenTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_b16x7")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(0, 64)
+rotation = 3.14159
+loop = false
+
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]
+[connection signal="timeout" from="DamageTakenTimer" to="." method="_on_damage_taken_timer_timeout"]

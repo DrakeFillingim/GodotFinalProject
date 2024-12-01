@@ -1,0 +1,173 @@
+[gd_scene load_steps=23 format=3 uid="uid://11sb7j8yc0o6"]
+
+[ext_resource type="Script" path="res://Player/PlayerScript.gd" id="1_2svdh"]
+[ext_resource type="PackedScene" uid="uid://7k2ggcr4wbpx" path="res://Projectiles/Boomerang.tscn" id="2_5eu5o"]
+[ext_resource type="Texture2D" uid="uid://dslwsnjtmb6cc" path="res://Assests/Player/idle1.png" id="3_e315b"]
+[ext_resource type="Texture2D" uid="uid://b76pxlgwegvw2" path="res://Assests/Player/DASH1.png" id="3_pbbas"]
+[ext_resource type="Texture2D" uid="uid://cpg5qav3y7srf" path="res://Assests/Player/idle2.png" id="4_i7sru"]
+[ext_resource type="Texture2D" uid="uid://c4kwojhy2djoh" path="res://Assests/Player/DASH2.png" id="4_nn5c6"]
+[ext_resource type="Texture2D" uid="uid://caja481wpgvei" path="res://Assests/Player/DASH3.png" id="5_aq6aw"]
+[ext_resource type="Texture2D" uid="uid://b3v8v7yjrs4uy" path="res://Assests/Player/jump.png" id="5_y4sj0"]
+[ext_resource type="Texture2D" uid="uid://d1xwm2o47kbxb" path="res://Assests/Player/BMan_RealWalk1[F].png_0001.png" id="6_bxbxq"]
+[ext_resource type="Texture2D" uid="uid://cnv8v4eh8qihj" path="res://Assests/Player/DASH4.png" id="6_wl7jl"]
+[ext_resource type="Texture2D" uid="uid://l5oat6i1nnsu" path="res://Assests/Player/BMan_RealWalk2[F].png_0001.png" id="7_tf0t5"]
+[ext_resource type="Texture2D" uid="uid://c0xr534jewpn0" path="res://Assests/Player/BMan_RealWalk3[F].png_0001.png" id="8_3ufi2"]
+[ext_resource type="Texture2D" uid="uid://dupyswv0twso3" path="res://Assests/Player/BMan_RealWalk4[F].png_0001.png" id="9_a2lpn"]
+[ext_resource type="Texture2D" uid="uid://btgat6lvo2syt" path="res://Assests/Player/boomerang2.png" id="10_5x2mq"]
+[ext_resource type="Texture2D" uid="uid://c7n657ro76nhm" path="res://Assests/Player/BMan_Web2.png" id="10_xrl8x"]
+[ext_resource type="AudioStream" uid="uid://bmhb7jvmma6c4" path="res://Assests/Music/Vegemite.mp3" id="16_33wbv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hq4wv"]
+atlas = ExtResource("3_e315b")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0we67"]
+atlas = ExtResource("5_y4sj0")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lb52v"]
+atlas = ExtResource("6_bxbxq")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_13d81"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_pbbas")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_nn5c6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_aq6aw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wl7jl")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hq4wv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_i7sru")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0we67")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_xrl8x")
+}],
+"loop": true,
+"name": &"rooted",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lb52v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tf0t5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3ufi2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_a2lpn")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ilhg7"]
+size = Vector2(72, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u00kh"]
+size = Vector2(72, 120)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_2svdh")
+Boomerang = ExtResource("2_5eu5o")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.68221e-06, 2.68221e-06)
+sprite_frames = SubResource("SpriteFrames_13d81")
+animation = &"idle"
+
+[node name="PlayerArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 15
+
+[node name="PlayerAreaCollisionShape" type="CollisionShape2D" parent="PlayerArea"]
+position = Vector2(-4, 4)
+shape = SubResource("RectangleShape2D_ilhg7")
+
+[node name="PlayerCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(-4, 4)
+shape = SubResource("RectangleShape2D_u00kh")
+
+[node name="PlayerCamera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.43, 0.43)
+drag_left_margin = 0.0
+drag_top_margin = 0.0
+drag_right_margin = 0.0
+drag_bottom_margin = 0.0
+
+[node name="DashCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DashLengthTimer" type="Timer" parent="."]
+wait_time = 0.25
+
+[node name="RootTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="iFrameTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="LostRang" type="Timer" parent="."]
+wait_time = 7.5
+one_shot = true
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="CheckJumpReset" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="Marker" type="Marker2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(48, 7.99999)
+rotation = 2.93041
+scale = Vector2(0.100283, 0.100283)
+texture = ExtResource("10_5x2mq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_33wbv")
+
+[connection signal="timeout" from="DashCooldownTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="DashLengthTimer" to="." method="_on_dash_length_timeout"]
+[connection signal="timeout" from="RootTimer" to="." method="_on_root_timer_timeout"]
+[connection signal="timeout" from="iFrameTimer" to="." method="_on_i_frame_timer_timeout"]
+[connection signal="timeout" from="LostRang" to="." method="_on_lost_rang_timeout"]
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="timeout" from="CheckJumpReset" to="." method="_on_check_jump_reset_timeout"]

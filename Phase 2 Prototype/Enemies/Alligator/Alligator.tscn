@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://delst8mxtk21y"]
+
+[ext_resource type="Script" path="res://Enemies/Alligator/AlligatorScript.gd" id="1_bwijt"]
+[ext_resource type="Texture2D" uid="uid://mcg6wgddap4d" path="res://Assests/Enemies/skelekjbskjb.png" id="2_im8b2"]
+[ext_resource type="Script" path="res://Enemies/Alligator/AlligatorAreaScript.gd" id="3_nko8p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ls7"]
+atlas = ExtResource("2_im8b2")
+region = Rect2(0, 0, 348, 290)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8ls7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_buces"]
+size = Vector2(96, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(112, 104)
+
+[node name="Alligator" type="CharacterBody2D"]
+z_index = -1
+collision_layer = 10
+collision_mask = 5
+script = ExtResource("1_bwijt")
+health = 99999999999
+
+[node name="EnemyBaseAnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(9.53674e-06, 3.8147e-06)
+scale = Vector2(0.441379, 0.441379)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+
+[node name="AlligatorCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_buces")
+
+[node name="EnemyBaseArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_nko8p")
+
+[node name="EnemyBaseAreaCollisionShape" type="CollisionShape2D" parent="EnemyBaseArea"]
+position = Vector2(8, 12)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[connection signal="area_entered" from="EnemyBaseArea" to="." method="_on_area_2d_area_entered"]

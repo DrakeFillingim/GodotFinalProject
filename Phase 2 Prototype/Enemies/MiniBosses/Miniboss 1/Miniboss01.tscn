@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=3 uid="uid://bjp3upurqxyb7"]
+
+[ext_resource type="Script" path="res://Enemies/MiniBosses/Miniboss 1/Miniboss01Script.gd" id="1_4u66g"]
+[ext_resource type="PackedScene" uid="uid://cyooewo5trhl7" path="res://Interactables/NextLevelTeleporter.tscn" id="2_d0ubs"]
+[ext_resource type="Texture2D" uid="uid://bmfjnc2mbiol5" path="res://Assests/bird boss 1.png" id="3_c631f"]
+[ext_resource type="Texture2D" uid="uid://ccup0qj02uyqj" path="res://Assests/bird boss 2.png" id="4_nfmkh"]
+[ext_resource type="Script" path="res://Enemies/MiniBosses/Miniboss 1/MiniBoss01AreaScript.gd" id="4_ud4ej"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_c631f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_nfmkh")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(160, 216)
+
+[node name="EnemyMiniboss01" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_4u66g")
+next_level_teleporter = ExtResource("2_d0ubs")
+
+[node name="EnemyMiniboss01AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 3.8147e-06)
+scale = Vector2(2.56, 2.56)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+animation = &"walk"
+frame = 1
+frame_progress = 0.874158
+
+[node name="EnemyMiniboss01AreaCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(16, 4)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="EnemyMiniboss01Area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("4_ud4ej")
+
+[node name="EnemyMiniboss01AreaCollisionShape" type="CollisionShape2D" parent="EnemyMiniboss01Area"]
+position = Vector2(16, 4)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="dash_length" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="dash_timer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="dash_telegraph" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="RedTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="area_entered" from="EnemyMiniboss01Area" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="dash_length" to="." method="_on_dash_length_timeout"]
+[connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="dash_telegraph" to="." method="_on_dash_telegraph_timeout"]
+[connection signal="timeout" from="RedTimer" to="." method="_on_red_timer_timeout"]

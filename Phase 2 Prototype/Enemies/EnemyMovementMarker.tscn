@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://hsh2gdic4s4g"]
+
+[ext_resource type="Script" path="res://Enemies/MovementMarkerScript.gd" id="1_v1140"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_41x70"]
+size = Vector2(0, 0)
+
+[node name="MovementMarker" type="Area2D"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_v1140")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_41x70")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

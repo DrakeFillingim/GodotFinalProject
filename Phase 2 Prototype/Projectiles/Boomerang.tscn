@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://7k2ggcr4wbpx"]
+
+[ext_resource type="Script" path="res://Projectiles/BoomerangScript.gd" id="1_83glt"]
+[ext_resource type="Texture2D" uid="uid://btgat6lvo2syt" path="res://Assests/Player/boomerang2.png" id="2_k2hui"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e7vuq"]
+size = Vector2(44, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ri6qt"]
+size = Vector2(86, 65)
+
+[node name="Boomerang" type="Area2D"]
+collision_layer = 4
+collision_mask = 15
+script = ExtResource("1_83glt")
+
+[node name="BoomerangCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(2, -7)
+shape = SubResource("RectangleShape2D_e7vuq")
+
+[node name="return_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 15
+
+[node name="PickupCollisionShape" type="CollisionShape2D" parent="PickupArea"]
+position = Vector2(2, -6.5)
+shape = SubResource("RectangleShape2D_ri6qt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.875, -6.875)
+scale = Vector2(0.0932617, 0.0932617)
+texture = ExtResource("2_k2hui")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="return_timer" to="." method="_on_return_timer_timeout"]
+[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_entered"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://464coby1oh1k"]
+
+[ext_resource type="Script" path="res://Enemies/MiniBosses/Miniboss 2/Miniboss02ProjectileScript.gd" id="1_jes1o"]
+[ext_resource type="Texture2D" uid="uid://d0ta0q1v8ccee" path="res://Assests/Enemies/web projectile.png" id="2_4maua"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wudmi"]
+size = Vector2(128, 64)
+
+[node name="Miniboss02Projectile" type="Area2D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_jes1o")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_4maua")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_wudmi")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

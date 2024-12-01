@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://dai6npbwrt2es"]
+
+[ext_resource type="Texture2D" uid="uid://cqo3brf4jdkx5" path="res://Assests/Enemies/spider walk 1.png" id="1_cxl5g"]
+[ext_resource type="Script" path="res://Enemies/Spider/Spiderv2Script.gd" id="1_xppka"]
+[ext_resource type="Texture2D" uid="uid://bu2qj7be2cl2s" path="res://Assests/Enemies/spider walk 2.png" id="2_7nw70"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4upvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cxl5g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_7nw70")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpcas"]
+size = Vector2(67, 64)
+
+[sub_resource type="Curve2D" id="Curve2D_uk15p"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 1
+
+[node name="Spiderv2" type="CharacterBody2D"]
+script = ExtResource("1_xppka")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.90735e-06, -1.90735e-06)
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_4upvj")
+animation = &"walk"
+frame = 1
+frame_progress = 0.521051
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_hpcas")
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="AreaCollisionShape" type="CollisionShape2D" parent="Area"]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_hpcas")
+
+[node name="DamageTakenTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_uk15p")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+loop = false
+
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]
+[connection signal="timeout" from="DamageTakenTimer" to="." method="_on_damage_taken_timer_timeout"]

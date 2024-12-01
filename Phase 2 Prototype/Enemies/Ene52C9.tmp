@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://br3788mj13ywh"]
+
+[ext_resource type="Texture2D" uid="uid://mcg6wgddap4d" path="res://Assests/skelekjbskjb.png" id="2_hsxw2"]
+[ext_resource type="Script" path="res://Enemies/EnemyBaseAreaScript.gd" id="3_w7313"]
+
+[sub_resource type="Curve2D" id="Curve2D_dclng"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -638.4, 64, 0, 0, 0, 0, 705.6, 64)
+}
+point_count = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ls7"]
+atlas = ExtResource("2_hsxw2")
+region = Rect2(0, 0, 348, 290)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8ls7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(96, 96)
+
+[node name="Path2D" type="Path2D"]
+position = Vector2(32, 3.8147e-06)
+scale = Vector2(0.952381, 1)
+curve = SubResource("Curve2D_dclng")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(-638.4, 64)
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="PathFollow2D"]
+position = Vector2(638.4, -64)
+scale = Vector2(0.386207, 0.386207)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+
+[node name="Area" type="Area2D" parent="PathFollow2D"]
+position = Vector2(638.4, -64)
+scale = Vector2(1, 1)
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_w7313")
+
+[node name="AreaCollisionShape" type="CollisionShape2D" parent="PathFollow2D/Area"]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="DamageTakeTimer" type="Timer" parent="PathFollow2D"]

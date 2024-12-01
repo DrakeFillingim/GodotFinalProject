@@ -1,0 +1,119 @@
+[gd_scene load_steps=12 format=3 uid="uid://cjfjvc0hb3hmb"]
+
+[ext_resource type="Script" path="res://Enemies/Koala/koalav2Script.gd" id="1_hbe8o"]
+[ext_resource type="PackedScene" uid="uid://d4hb1y3cwktuf" path="res://Enemies/Koala/KoalaProjectile.tscn" id="2_7k6td"]
+[ext_resource type="Texture2D" uid="uid://dakxkuo0iao2m" path="res://Assests/Enemies/koala idle.png" id="3_dwwa4"]
+[ext_resource type="Texture2D" uid="uid://csixxbsjjmp6y" path="res://Assests/Enemies/k3.png" id="4_kwlcj"]
+[ext_resource type="Texture2D" uid="uid://m16begsy8kpr" path="res://Assests/Enemies/k4.png" id="5_nr1cs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x334e"]
+atlas = ExtResource("4_kwlcj")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ngg0"]
+atlas = ExtResource("5_nr1cs")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6bof1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_dwwa4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x334e")
+}],
+"loop": true,
+"name": &"throw",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ngg0")
+}],
+"loop": true,
+"name": &"windup",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hcgas"]
+size = Vector2(96, 96)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8abpp"]
+radius = 1152.03
+
+[sub_resource type="Curve2D" id="Curve2D_nlomq"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 1
+
+[node name="Koalav2" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_hbe8o")
+koala_projectile = ExtResource("2_7k6td")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-3.8147e-06, -3.8147e-06)
+sprite_frames = SubResource("SpriteFrames_6bof1")
+animation = &"throw"
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_hcgas")
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="AreaCollisionShape" type="CollisionShape2D" parent="Area"]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_hcgas")
+
+[node name="DamageTakenTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange"]
+shape = SubResource("CircleShape2D_8abpp")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_nlomq")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+loop = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[node name="TelegraphTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="ThrowTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]
+[connection signal="timeout" from="DamageTakenTimer" to="." method="_on_damage_taken_timer_timeout"]
+[connection signal="area_entered" from="AttackRange" to="." method="_on_attack_range_area_entered"]
+[connection signal="area_exited" from="AttackRange" to="." method="_on_attack_range_area_exited"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="TelegraphTimer" to="." method="_on_telegraph_timer_timeout"]
+[connection signal="timeout" from="ThrowTimer" to="." method="_on_throw_timer_timeout"]

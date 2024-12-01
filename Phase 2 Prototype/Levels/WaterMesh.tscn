@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg443e44sugpk"]
+
+[ext_resource type="Script" path="res://Levels/WaterMeshScript.gd" id="1_ep7ri"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5t3wq"]
+size = Vector2(1024, 576)
+
+[node name="Watermesh" type="Area2D"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_ep7ri")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5t3wq")
+
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

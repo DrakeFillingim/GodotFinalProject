@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyooewo5trhl7"]
+
+[ext_resource type="Script" path="res://Interactables/NextLevelTeleporterScript.gd" id="1_6ui8t"]
+[ext_resource type="Texture2D" uid="uid://bagnbb746u3a" path="res://Assests/Other/BMAN_Portal1.png" id="2_qvrgs"]
+[ext_resource type="Texture2D" uid="uid://js4k40xf2fix" path="res://Assests/Other/BMAN_Portal2.png" id="3_lpcfl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mk4nb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qvrgs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_lpcfl")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1wmvw"]
+size = Vector2(66, 125)
+
+[node name="NextLevelTeleporter" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_6ui8t")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.90735e-06, 1.90735e-06)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_mk4nb")
+animation = &"idle"
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(2, 1.5)
+shape = SubResource("RectangleShape2D_1wmvw")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

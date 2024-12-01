@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://bk0bnfx5x3qt2"]
+
+[ext_resource type="Script" path="res://Enemies/WalkingBird/WalkingBirdScript.gd" id="1_r038n"]
+[ext_resource type="Texture2D" uid="uid://pa06j3ndcbm" path="res://Assests/Enemies/Black Bird Run1.png" id="2_ffuhh"]
+[ext_resource type="Texture2D" uid="uid://4blked1ipdeg" path="res://Assests/Enemies/Black Bird Run2.png" id="3_4tqg8"]
+[ext_resource type="Script" path="res://Enemies/WalkingBird/WalkingBirdAreaScript.gd" id="3_8fw48"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ogqaj"]
+atlas = ExtResource("3_4tqg8")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ffuhh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ogqaj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pl0s5"]
+size = Vector2(88, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(88, 112)
+
+[node name="EnemyWalkingBird" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_r038n")
+
+[node name="EnemyWalkingBirdAnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 5.72205e-06)
+scale = Vector2(1.28, 1.28)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+frame = 1
+frame_progress = 0.194202
+
+[node name="EnemyWalkingBirdCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_pl0s5")
+
+[node name="EnemyWalkingBirdArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_8fw48")
+
+[node name="EnemyWalkingBirdAreaCollisionShape" type="CollisionShape2D" parent="EnemyWalkingBirdArea"]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="RedTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="area_entered" from="EnemyWalkingBirdArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="RedTimer" to="." method="_on_red_timer_timeout"]

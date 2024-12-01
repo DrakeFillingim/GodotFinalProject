@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cjqmhphpf1olj"
+path="res://.godot/imported/Grassland Music.mp3-73d5f0b3c6809bf78f6c0195aa8ddb88.mp3str"
+
+[deps]
+
+source_file="res://Assests/Music/Grassland Music.mp3"
+dest_files=["res://.godot/imported/Grassland Music.mp3-73d5f0b3c6809bf78f6c0195aa8ddb88.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

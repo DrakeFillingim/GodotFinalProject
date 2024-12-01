@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://bodupim63gpkq"]
+
+[ext_resource type="Script" path="res://UI/HUDScript.gd" id="1_unrlg"]
+[ext_resource type="Texture2D" uid="uid://m5lk6r5xrxrf" path="res://Assests/Other/warning.png" id="2_hpa3i"]
+[ext_resource type="Texture2D" uid="uid://dfyu0qk415vco" path="res://Assests/Other/heart 5.png" id="2_w3pfj"]
+[ext_resource type="Texture2D" uid="uid://caoxsh68ap7uv" path="res://Assests/Other/dash thingamgi.png" id="4_ejf7n"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_unrlg")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 48.0
+offset_right = -48.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HealthLabel" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+texture = ExtResource("2_w3pfj")
+offset = Vector2(50, 50)
+
+[node name="TimeLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "10:13
+"
+
+[node name="WarningImage" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("2_hpa3i")
+
+[node name="DashImage" type="Sprite2D" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+texture = ExtResource("4_ejf7n")
+offset = Vector2(1000, 500)

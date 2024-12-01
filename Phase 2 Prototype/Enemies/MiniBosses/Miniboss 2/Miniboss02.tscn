@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://c2t10mvqnhkc2"]
+
+[ext_resource type="Script" path="res://Enemies/MiniBosses/Miniboss 2/Miniboss02Script.gd" id="1_ide6q"]
+[ext_resource type="PackedScene" uid="uid://cnf531n72h31t" path="res://Enemies/MiniBosses/Miniboss 2/Miniboss02Spawnv2.tscn" id="2_mns04"]
+[ext_resource type="PackedScene" uid="uid://464coby1oh1k" path="res://Enemies/MiniBosses/Miniboss 2/Miniboss02Projectile.tscn" id="3_1pl5o"]
+[ext_resource type="PackedScene" uid="uid://cyooewo5trhl7" path="res://Interactables/NextLevelTeleporter.tscn" id="4_awptm"]
+[ext_resource type="Script" path="res://Enemies/MiniBosses/Miniboss 2/Miniboss02AreaScript.gd" id="4_jgkde"]
+[ext_resource type="Texture2D" uid="uid://dmwq028ej14qv" path="res://Assests/Enemies/black spider.png" id="5_o08lo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(309, 279)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_o08lo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Miniboss02" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_ide6q")
+miniboss02_spawns = ExtResource("2_mns04")
+miniboss02_projectile = ExtResource("3_1pl5o")
+next_level_teleporter = ExtResource("4_awptm")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(38.5, 8.5)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3.5, 3.5)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+frame_progress = 0.671479
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("4_jgkde")
+
+[node name="AreaCollisionShape" type="CollisionShape2D" parent="Area"]
+position = Vector2(38.5, 8.5)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="spawn_timer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="gravity_reverse" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="gravity_reverse_warning" type="Timer" parent="."]
+wait_time = 3.5
+one_shot = true
+autostart = true
+
+[node name="projectile_timer" type="Timer" parent="."]
+wait_time = 3.5
+
+[node name="DamageTakenTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="area_entered" from="Area" to="." method="_on_enemy_miniboss_02_area_area_entered"]
+[connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="gravity_reverse" to="." method="_on_gravity_reverse_timeout"]
+[connection signal="timeout" from="gravity_reverse_warning" to="." method="_on_gravity_reverse_warning_timeout"]
+[connection signal="timeout" from="projectile_timer" to="." method="_on_projectile_timer_timeout"]
+[connection signal="timeout" from="DamageTakenTimer" to="." method="_on_damage_taken_timer_timeout"]

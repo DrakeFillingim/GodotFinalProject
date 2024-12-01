@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://b6c02e3tlylpw"]
+
+[ext_resource type="Script" path="res://Enemies/Kangaroo/KangarooScript.gd" id="1_loqdr"]
+[ext_resource type="Texture2D" uid="uid://1e5p47353cp2" path="res://Assests/Enemies/roo idle.png" id="2_5ob7m"]
+[ext_resource type="Texture2D" uid="uid://bok5lh1lv8g6h" path="res://Assests/Enemies/roo jump.png" id="3_3od7u"]
+[ext_resource type="Script" path="res://Enemies/Kangaroo/KangarooAreaScript.gd" id="3_ewskc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ooetw"]
+atlas = ExtResource("2_5ob7m")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhxb6"]
+atlas = ExtResource("3_3od7u")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wm5f4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ooetw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhxb6")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ivge"]
+size = Vector2(72, 125)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2v3yu"]
+size = Vector2(72, 125)
+
+[node name="EnemyKangaroo" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_loqdr")
+
+[node name="EnemyKangarooAnimatedSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wm5f4")
+animation = &"idle"
+
+[node name="KangarooCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(-4, -1.5)
+shape = SubResource("RectangleShape2D_8ivge")
+
+[node name="EnemyKangarooArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_ewskc")
+
+[node name="EnemyKangarooAreaCollisionShape" type="CollisionShape2D" parent="EnemyKangarooArea"]
+position = Vector2(-4, -1.5)
+shape = SubResource("RectangleShape2D_2v3yu")
+
+[node name="jump_timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="check_floor" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="RedTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="area_entered" from="EnemyKangarooArea" to="." method="_on_enemy_prototype_2_area_2d_area_entered"]
+[connection signal="timeout" from="jump_timer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="check_floor" to="." method="_on_check_floor_timeout"]
+[connection signal="timeout" from="RedTimer" to="." method="_on_red_timer_timeout"]

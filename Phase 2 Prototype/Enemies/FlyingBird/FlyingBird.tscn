@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://dccpey6026spv"]
+
+[ext_resource type="Script" path="res://Enemies/FlyingBird/FlyingBirdScript.gd" id="1_2onwq"]
+[ext_resource type="Texture2D" uid="uid://dqgkujpyr3obt" path="res://Assests/Enemies/Wing down bord.png" id="2_el0tx"]
+[ext_resource type="Texture2D" uid="uid://b3qdtj52nu7q4" path="res://Assests/Enemies/fixed bird 2.png" id="3_811rh"]
+[ext_resource type="Script" path="res://Enemies/FlyingBird/FlyingBirdAreaScript.gd" id="3_scjnh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(94, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5d7y"]
+atlas = ExtResource("2_el0tx")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qftr4"]
+atlas = ExtResource("3_811rh")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5d7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qftr4")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 2.0
+}]
+
+[node name="EnemyFlyingBird" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_2onwq")
+
+[node name="EnemyFlyingBirdCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(-13, -11)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="EnemyFlyingBirdAnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9.53674e-06)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+animation = &"flying"
+frame_progress = 0.160251
+
+[node name="EnemyFlyingBirdArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_scjnh")
+
+[node name="EnemyFlyingBirdAreaCollisionShape" type="CollisionShape2D" parent="EnemyFlyingBirdArea"]
+position = Vector2(-13, -11)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="dive_timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="dive_recovery_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RedTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="area_entered" from="EnemyFlyingBirdArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="dive_timer" to="." method="_on_dive_timer_timeout"]
+[connection signal="timeout" from="dive_recovery_timer" to="." method="_on_dive_recovery_timer_timeout"]
+[connection signal="timeout" from="RedTimer" to="." method="_on_red_timer_timeout"]

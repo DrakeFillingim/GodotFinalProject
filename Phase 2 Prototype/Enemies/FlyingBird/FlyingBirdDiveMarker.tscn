@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://coukh6qsabc8m"]
+
+[ext_resource type="Script" path="res://Enemies/FlyingBird/FlyingBirdDiveMarkerScript.gd" id="1_yqpp7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iu5i2"]
+size = Vector2(1280, 128)
+
+[node name="DiveAreaMarker" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_yqpp7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_iu5i2")

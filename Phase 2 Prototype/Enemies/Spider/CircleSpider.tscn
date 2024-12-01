@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0l8htxevp4t3"]
+
+[ext_resource type="Script" path="res://Enemies/Spider/CircleSpiderScript.gd" id="1_a210i"]
+[ext_resource type="Texture2D" uid="uid://mcg6wgddap4d" path="res://Assests/Enemies/skelekjbskjb.png" id="2_a16nn"]
+[ext_resource type="Script" path="res://Enemies/Spider/CircleSpiderAreaScript.gd" id="3_e10s4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ls7"]
+atlas = ExtResource("2_a16nn")
+region = Rect2(0, 0, 348, 290)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8ls7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="EnemySpider" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_a210i")
+
+[node name="EnemySpiderAreaCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="EnemySpiderAnimatedSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.275862, 0.275862)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+
+[node name="EnemySpiderArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_e10s4")
+
+[node name="EnemySpiderAreaCollisionShape" type="CollisionShape2D" parent="EnemySpiderArea"]
+position = Vector2(8, 0)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="RedTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="area_entered" from="EnemySpiderArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="RedTimer" to="." method="_on_red_timer_timeout"]

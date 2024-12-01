@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=3 uid="uid://pvonl17ck74d"]
+
+[ext_resource type="Script" path="res://Enemies/WalkingBird/WalkingBirdv2Script.gd" id="1_ftvp2"]
+[ext_resource type="Texture2D" uid="uid://pa06j3ndcbm" path="res://Assests/Enemies/Black Bird Run1.png" id="2_8uj2a"]
+[ext_resource type="Texture2D" uid="uid://ehlyeiqj3wcg" path="res://Assests/Enemies/fixed fiexed fixed bird(1).png" id="3_ac8c8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lh5ph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8uj2a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ac8c8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k2ml2"]
+size = Vector2(86, 116)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2u5xu"]
+size = Vector2(86, 116)
+
+[sub_resource type="Curve2D" id="Curve2D_8lsvc"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 1
+
+[node name="WalkingBirdv2" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_ftvp2")
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(3.33786e-06, -8.10623e-06)
+scale = Vector2(1.28, 1.28)
+sprite_frames = SubResource("SpriteFrames_lh5ph")
+animation = &"walk"
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(4, 5)
+shape = SubResource("RectangleShape2D_k2ml2")
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+
+[node name="AreaCollisionShape" type="CollisionShape2D" parent="Area"]
+position = Vector2(4, 5)
+shape = SubResource("RectangleShape2D_2u5xu")
+
+[node name="DamageTakenTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_8lsvc")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+loop = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = 5.0
+
+[connection signal="area_entered" from="Area" to="." method="_on_area_area_entered"]
+[connection signal="timeout" from="DamageTakenTimer" to="." method="_on_damage_taken_timer_timeout"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

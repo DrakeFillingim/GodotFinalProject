@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbi87jiyqn4xd"]
+
+[ext_resource type="Script" path="res://Levels/DeathMeshScript.gd" id="1_5r71j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tstff"]
+resource_local_to_scene = true
+size = Vector2(64, 64)
+
+[node name="DeathMesh" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_5r71j")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tstff")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

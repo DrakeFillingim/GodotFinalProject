@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ckped1edwc2ig"
+path="res://.godot/imported/Krikey (1).mp3-9f937150f92bb11d75c729b545469ce0.mp3str"
+
+[deps]
+
+source_file="res://Assests/Music/Krikey (1).mp3"
+dest_files=["res://.godot/imported/Krikey (1).mp3-9f937150f92bb11d75c729b545469ce0.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

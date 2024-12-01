@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://2bdnu5qsr3hd"]
+
+[ext_resource type="Script" path="res://Enemies/Fish/FishScript.gd" id="1_8msl1"]
+[ext_resource type="Texture2D" uid="uid://mcg6wgddap4d" path="res://Assests/Enemies/skelekjbskjb.png" id="2_xptvv"]
+[ext_resource type="Script" path="res://Enemies/Fish/FishAreaScript.gd" id="3_hdnca"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ls7"]
+atlas = ExtResource("2_xptvv")
+region = Rect2(0, 0, 348, 290)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlql8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8ls7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhsnv"]
+size = Vector2(56, 64)
+
+[node name="Fish" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_8msl1")
+
+[node name="EnemyBaseAnimatedSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.248276, 0.248276)
+sprite_frames = SubResource("SpriteFrames_rlql8")
+
+[node name="EnemyBaseAreaCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="FishArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("3_hdnca")
+
+[node name="EnemyBaseAreaCollisionShape" type="CollisionShape2D" parent="FishArea"]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_bhsnv")
+
+[node name="HitTimer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="FishArea" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
